@@ -14,8 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - run: npm ci
-      - run: npm run build
+      - name: npm ci
+        if: startsWith('refs/heads/master', github.ref)
+        run: npm ci
+      - name: npm run build
+        if: startsWith('refs/heads/master', github.ref)
+        run: npm run build
       - run: |
           echo "Hello World" > mod.txt
           zip modfile.zip mod.txt
