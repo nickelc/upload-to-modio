@@ -1,0 +1,27 @@
+name: 'Test upload-to-modio'
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'releases/*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          echo "Hello World" > mod.txt
+          zip modfile.zip mod.txt
+      - uses: ./
+        with:
+          game: 206
+          mod: 1041
+          token: ${{ secrets.MODIO_TOKEN }}
+          path: ./modfile.zip

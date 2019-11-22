@@ -1,0 +1,31 @@
+{
+    "name": "upload-to-modio",
+    "version": "0.1.0",
+    "description": "GitHub Action to upload mod files to mod.io",
+    "main": "lib/main.js",
+    "scripts": {
+        "build": "tsc",
+        "test": "jest",
+        "fmt": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+http://github.com/nickelc/upload-to-modio.git"
+    },
+    "keywords": [
+        "actions"
+    ],
+    "author": "nickelc",
+    "license": "MIT",
+    "dependencies": {
+        "@actions/core": "^1.0.0"
+    },
+    "devDependencies": {
+        "jest": "^24.9.0",
+        "jest-circus": "^24.9.0",
+        "prettier": "1.18.2",
+        "ts-jest": "^24.2.0",
+        "typescript": "^3.6.3",
+        "typescript-formatter": "^7.2.2"
+    }
+}

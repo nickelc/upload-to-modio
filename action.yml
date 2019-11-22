@@ -1,0 +1,38 @@
+name: 'Upload to Modio'
+description: 'GitHub Action for uploading mods to mod.io'
+author: 'nickelc'
+
+inputs:
+  game:
+    description: 'Game id'
+    required: true
+  mod:
+    description: 'Mod Id'
+    required: true
+  token:
+    description: 'Access token'
+    required: true
+
+  path:
+    description: 'The path to the mod file you want to upload'
+    required: true
+  version:
+    description: 'Version of the mod file'
+    required: false
+  changelog:
+    description: 'Changelog of the mod file'
+    required: false
+  active:
+    description: 'Label this upload as the current release'
+    required: false
+    default: true
+  filehash:
+    description: 'Filehash of the mod file'
+    required: false
+  metadata:
+    description: 'Metadata blob of the mod file'
+    required: false
+
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
