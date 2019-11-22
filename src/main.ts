@@ -1,37 +1,50 @@
-import fs from 'fs';
-import path from 'path';
+import * as util from "./util";
 import * as core from "@actions/core";
-import FormData from 'form-data';
-import axios from 'axios';
+import FormData from "form-data";
+import axios from "axios";
 
 async function run() {
-  const token = core.getInput("token", { required: true });
-  const game = core.getInput("game", { required: true });
-  const mod = core.getInput("mod", { required: true });
-  const file = core.getInput("path", { required: true });
+  try {
+    const config = util.config();
 
-  const version = core.getInput("version");
+    const uri = util.url(config);
+    core.debug(`URL: ${uri}`);
 
-  const uri = `https://api.test.mod.io/v1/games/${encodeURIComponent(
-    game
-  )}/mods/${encodeURIComponent(mod)}/files`;
+    const form = new FormData();
+    form.append("filedata", util.file(config));
 
-  core.debug(`URL: ${uri}`);
-
-  const form = new FormData();
-  form.append('filedata', fs.createReadStream(path.resolve(file)));
-
-  if (version) {
-    form.append('version', version);
-  }
-
-  const response = await axios.post(uri, form, {
-    headers: {
-      ...form.getHeaders(),
-      Authorization: `Bearer ${token}`,
+    if (config.filehash) {
+      form.append("filehash", config.filehash);
     }
-  });
-  core.debug(`Response: ${JSON.stringify(response.data)}`);
+
+    if (config.active) {
+      form.append("active", "true");
+    }
+
+    if (config.version) {
+      form.append("version", config.version);
+    }
+
+    const changelog = util.changelog(config);
+    if (changelog) {
+      form.append("changelog", changelog);
+    }
+
+    const md = util.metadata(config);
+    if (md) {
+      form.append("metadata_blob", md);
+    }
+
+    const response = await axios.post(uri, form, {
+      headers: {
+        ...form.getHeaders(),
+        Authorization: `Bearer ${config.token}`
+      }
+    });
+    core.debug(`Response: ${JSON.stringify(response.data)}`);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
 
 run();

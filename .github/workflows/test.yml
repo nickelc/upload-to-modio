@@ -25,6 +25,7 @@ jobs:
           zip modfile.zip mod.txt
       - uses: ./
         with:
+          test-env: true
           game: 206
           mod: 1041
           token: ${{ secrets.MODIO_TOKEN }}

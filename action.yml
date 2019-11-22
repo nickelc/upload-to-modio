@@ -3,27 +3,35 @@ description: 'GitHub Action for uploading mods to mod.io'
 author: 'nickelc'
 
 inputs:
+  token:
+    description: "The user's access token"
+    required: true
+  test-env:
+    description: 'Use test environment (Default: false)'
+    required: false
+    default: false
+
   game:
     description: 'Game id'
     required: true
   mod:
     description: 'Mod Id'
     required: true
-  token:
-    description: 'Access token'
-    required: true
-
   path:
     description: 'The path to the mod file you want to upload'
     required: true
+
   version:
     description: 'Version of the mod file'
     required: false
   changelog:
     description: 'Changelog of the mod file'
     required: false
+  changelog-path:
+    description: 'Path to changelog of the mod file'
+    required: false
   active:
-    description: 'Label this upload as the current release'
+    description: 'Label this upload as the current release (Default: true)'
     required: false
     default: true
   filehash:
@@ -31,6 +39,9 @@ inputs:
     required: false
   metadata:
     description: 'Metadata blob of the mod file'
+    required: false
+  metadata-path:
+    description: 'Path to the metadata blob of the mod file'
     required: false
 
 runs:
