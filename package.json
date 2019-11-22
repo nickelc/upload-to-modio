@@ -13,19 +13,24 @@
         "url": "git+http://github.com/nickelc/upload-to-modio.git"
     },
     "keywords": [
-        "actions"
+        "actions",
+        "modio",
+        "mods"
     ],
     "author": "nickelc",
     "license": "MIT",
     "dependencies": {
-        "@actions/core": "^1.0.0"
+        "@actions/core": "^1.0.0",
+        "axios": "^0.19.0",
+        "form-data": "^3.0.0"
     },
     "devDependencies": {
+        "@types/node": "^12.12.12",
         "jest": "^24.9.0",
         "jest-circus": "^24.9.0",
         "prettier": "1.18.2",
         "ts-jest": "^24.2.0",
-        "typescript": "^3.6.3",
+        "typescript": "^3.7.2",
         "typescript-formatter": "^7.2.2"
     }
 }
