@@ -41,6 +41,11 @@ async function run() {
         Authorization: `Bearer ${config.token}`
       }
     });
+
+    console.log(`🎉 File ready at ${response.data.download.binary_url}`);
+    core.setOutput("id", response.data.id);
+    core.setOutput("url", response.data.download.binary_url);
+
     core.debug(`Response: ${JSON.stringify(response.data)}`);
   } catch (error) {
     core.setFailed(error.message);

@@ -49,3 +49,10 @@ jobs:
 | `filehash`       | String   | MD5 hash of the file                                            |
 | `metadata`       | String   | Metadata blob of the file                                       |
 | `metadata-path`  | String   | Path to the metadata blob of the file                           |
+
+### Outputs
+
+| Name             | Type     | Description                                                     |
+|------------------|----------|-----------------------------------------------------------------|
+| `id`             | Number   | Unique id of the uploaded file                                  |
+| `url`            | String   | Download URL for the file                                       |
