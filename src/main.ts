@@ -49,6 +49,10 @@ async function run() {
     core.debug(`Response: ${JSON.stringify(response.data)}`);
   } catch (error) {
     core.setFailed(error.message);
+    if (error.response) {
+      core.setFailed(error.response.data.message);
+      core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
+    }
   }
 }
 
