@@ -12,10 +12,10 @@ inputs:
     default: false
 
   game:
-    description: 'Game id'
+    description: 'Unique id of the game'
     required: true
   mod:
-    description: 'Mod Id'
+    description: 'Unique id of the mod'
     required: true
   path:
     description: 'The path to the mod file you want to upload'
