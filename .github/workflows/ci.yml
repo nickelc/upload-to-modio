@@ -1,0 +1,27 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run test
+
+      - name: Check for changes
+        run: |
+          git diff --exit-code --stat -- . ':!node_modules' \
+          || (echo "##[error] found changed files after build. please 'npm run build && npm run format'" \
+                  "and check in all changes" \
+              && exit 1)
