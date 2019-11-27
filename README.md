@@ -18,7 +18,7 @@ jobs:
           echo "Hello Mod" > mod.txt
           zip modfile.zip mod.txt
 
-      - uses: nickelc@upload-to-modio@v1
+      - uses: nickelc/upload-to-modio@v1
         with:
           token: ${{ secrets.MODIO_TOKEN }}
           game: 206
