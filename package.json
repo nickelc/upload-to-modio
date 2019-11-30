@@ -2,9 +2,11 @@
     "name": "upload-to-modio",
     "version": "0.1.0",
     "description": "GitHub Action to upload mod files to mod.io",
-    "main": "lib/main.js",
+    "main": "dist/index.js",
     "scripts": {
-        "build": "tsc",
+        "tsc": "tsc",
+        "build": "ncc build src/main.ts",
+        "precommit": "npm run build && git add -f dist",
         "test": "jest",
         "fmt": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'"
     },
@@ -26,7 +28,8 @@
     },
     "devDependencies": {
         "@types/jest": "^24.0.23",
-        "@types/node": "^12.12.12",
+        "@types/node": "^12.12.14",
+        "@zeit/ncc": "^0.20.5",
         "jest": "^24.9.0",
         "jest-circus": "^24.9.0",
         "prettier": "1.18.2",
