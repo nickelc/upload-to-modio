@@ -17,10 +17,15 @@
     "keywords": [
         "actions",
         "modio",
+        "upload",
         "mods"
     ],
     "author": "nickelc",
     "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/nickelc/upload-to-modio/issues"
+    },
+    "homepage": "https://github.com/nickelc/upload-to-modio#readme",
     "dependencies": {
         "@actions/core": "^1.0.0",
         "axios": "^0.19.0",
