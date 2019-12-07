@@ -1,109 +1,109 @@
-import { url, changelog, metadata } from "../src/util";
-import * as assert from "assert";
+import {url, changelog, metadata} from '../src/util'
+import * as assert from 'assert'
 
-describe("util", () => {
-  describe("url", () => {
-    it("returns url to files endpoint", () => {
+describe('util', () => {
+  describe('url', () => {
+    it('returns url to files endpoint', () => {
       assert.equal(
-        "host/games/123/mods/345/files",
+        'host/games/123/mods/345/files',
         url({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt"
+          file: 'file.txt'
         })
-      );
-    });
-  });
+      )
+    })
+  })
 
-  describe("changelog", () => {
-    it("uses input changelog", () => {
+  describe('changelog', () => {
+    it('uses input changelog', () => {
       assert.equal(
-        "no changes",
+        'no changes',
         changelog({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          changelog: "no changes"
+          file: 'file.txt',
+          changelog: 'no changes'
         })
-      );
-    });
+      )
+    })
 
-    it("use input changelog-path", () => {
+    it('use input changelog-path', () => {
       assert.equal(
-        "some bug fixes",
+        'some bug fixes',
         changelog({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          changelog_path: "__tests__/data/changelog.txt"
+          file: 'file.txt',
+          changelogPath: '__tests__/data/changelog.txt'
         })
-      );
-    });
+      )
+    })
 
-    it("use input changelog & changelog-path", () => {
+    it('use input changelog & changelog-path', () => {
       assert.equal(
-        "changelog first",
+        'changelog first',
         changelog({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          changelog: "changelog first",
-          changelog_path: "__tests__/data/changelog.txt"
+          file: 'file.txt',
+          changelog: 'changelog first',
+          changelogPath: '__tests__/data/changelog.txt'
         })
-      );
-    });
-  });
+      )
+    })
+  })
 
-  describe("metadata", () => {
-    it("uses input metadata", () => {
+  describe('metadata', () => {
+    it('uses input metadata', () => {
       assert.equal(
-        "no meta",
+        'no meta',
         metadata({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          metadata: "no meta"
+          file: 'file.txt',
+          metadata: 'no meta'
         })
-      );
-    });
+      )
+    })
 
-    it("use input metadata-path", () => {
+    it('use input metadata-path', () => {
       assert.equal(
-        "mode=easy",
+        'mode=easy',
         metadata({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          metadata_path: "__tests__/data/metadata.txt"
+          file: 'file.txt',
+          metadataPath: '__tests__/data/metadata.txt'
         })
-      );
-    });
+      )
+    })
 
-    it("use input metadata & metadata-path", () => {
+    it('use input metadata & metadata-path', () => {
       assert.equal(
-        "metadata first",
+        'metadata first',
         metadata({
-          host: "host",
-          token: "t",
+          host: 'host',
+          token: 't',
           game: 123,
           mod: 345,
-          file: "file.txt",
-          metadata: "metadata first",
-          metadata_path: "__tests__/data/metadata.txt"
+          file: 'file.txt',
+          metadata: 'metadata first',
+          metadataPath: '__tests__/data/metadata.txt'
         })
-      );
-    });
-  });
-});
+      )
+    })
+  })
+})

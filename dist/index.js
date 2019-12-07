@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(131);
+/******/ 		return __webpack_require__(198);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -479,82 +479,6 @@ function serial(list, iterator, callback)
 {
   return serialOrdered(list, iterator, null, callback);
 }
-
-
-/***/ }),
-
-/***/ 131:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const util = __importStar(__webpack_require__(322));
-const core = __importStar(__webpack_require__(470));
-const form_data_1 = __importDefault(__webpack_require__(928));
-const axios_1 = __importDefault(__webpack_require__(53));
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const config = util.config();
-            const uri = util.url(config);
-            core.debug(`URL: ${uri}`);
-            const form = new form_data_1.default();
-            form.append("filedata", util.file(config));
-            if (config.filehash) {
-                form.append("filehash", config.filehash);
-            }
-            if (config.active) {
-                form.append("active", "true");
-            }
-            if (config.version) {
-                form.append("version", config.version);
-            }
-            const changelog = util.changelog(config);
-            if (changelog) {
-                form.append("changelog", changelog);
-            }
-            const md = util.metadata(config);
-            if (md) {
-                form.append("metadata_blob", md);
-            }
-            const response = yield axios_1.default.post(uri, form, {
-                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
-            });
-            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
-            core.setOutput("id", response.data.id);
-            core.setOutput("url", response.data.download.binary_url);
-            core.debug(`Response: ${JSON.stringify(response.data)}`);
-        }
-        catch (error) {
-            core.setFailed(error.message);
-            if (error.response) {
-                core.setFailed(error.response.data.message);
-                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
-            }
-        }
-    });
-}
-run();
 
 
 /***/ }),
@@ -1171,6 +1095,82 @@ function runJob(iterator, key, item, callback)
 
   return aborter;
 }
+
+
+/***/ }),
+
+/***/ 198:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const util = __importStar(__webpack_require__(345));
+const core = __importStar(__webpack_require__(470));
+const form_data_1 = __importDefault(__webpack_require__(928));
+const axios_1 = __importDefault(__webpack_require__(53));
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const config = util.config();
+            const uri = util.url(config);
+            core.debug(`URL: ${uri}`);
+            const form = new form_data_1.default();
+            form.append('filedata', util.file(config));
+            if (config.filehash) {
+                form.append('filehash', config.filehash);
+            }
+            if (config.active) {
+                form.append('active', 'true');
+            }
+            if (config.version) {
+                form.append('version', config.version);
+            }
+            const changelog = util.changelog(config);
+            if (changelog) {
+                form.append('changelog', changelog);
+            }
+            const md = util.metadata(config);
+            if (md) {
+                form.append('metadata_blob', md);
+            }
+            const response = yield axios_1.default.post(uri, form, {
+                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
+            });
+            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
+            core.setOutput('id', response.data.id);
+            core.setOutput('url', response.data.download.binary_url);
+            core.debug(`Response: ${JSON.stringify(response.data)}`);
+        }
+        catch (error) {
+            core.setFailed(error.message);
+            if (error.response) {
+                core.setFailed(error.response.data.message);
+                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
+            }
+        }
+    });
+}
+run();
 
 
 /***/ }),
@@ -1958,7 +1958,20 @@ exports.enable(load());
 
 /***/ }),
 
-/***/ 322:
+/***/ 334:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+module.exports =
+{
+  parallel      : __webpack_require__(424),
+  serial        : __webpack_require__(91),
+  serialOrdered : __webpack_require__(892)
+};
+
+
+/***/ }),
+
+/***/ 345:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
@@ -1970,13 +1983,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __webpack_require__(747);
 const path_1 = __importDefault(__webpack_require__(622));
 const core_1 = __webpack_require__(470);
-const PROD_ENV = "https://api.mod.io/v1";
-const TEST_ENV = "https://api.test.mod.io/v1";
+const PROD_ENV = 'https://api.mod.io/v1';
+const TEST_ENV = 'https://api.test.mod.io/v1';
 exports.config = () => {
-    const test_env = core_1.getInput("test-env") === "true";
-    const host = test_env ? TEST_ENV : PROD_ENV;
-    const game = core_1.getInput("game", { required: true });
-    const mod = core_1.getInput("mod", { required: true });
+    const testEnv = core_1.getInput('test-env') === 'true';
+    const host = testEnv ? TEST_ENV : PROD_ENV;
+    const game = core_1.getInput('game', { required: true });
+    const mod = core_1.getInput('mod', { required: true });
     if (isNaN(+game)) {
         throw new Error(`Invalid input value for 'game': ${game}`);
     }
@@ -1984,49 +1997,34 @@ exports.config = () => {
         throw new Error(`Invalid input value for 'mod': ${mod}`);
     }
     return {
-        host: host,
-        token: core_1.getInput("token", { required: true }),
+        host,
+        token: core_1.getInput('token', { required: true }),
         game: +game,
         mod: +mod,
-        file: path_1.default.resolve(core_1.getInput("path", { required: true })),
-        filehash: core_1.getInput("filehash"),
-        active: core_1.getInput("active") === "true",
-        version: core_1.getInput("version"),
-        changelog: core_1.getInput("changelog"),
-        changelog_path: core_1.getInput("changelog-path"),
-        metadata: core_1.getInput("metadata"),
-        metadata_path: core_1.getInput("metadata-path")
+        file: path_1.default.resolve(core_1.getInput('path', { required: true })),
+        filehash: core_1.getInput('filehash'),
+        active: core_1.getInput('active') === 'true',
+        version: core_1.getInput('version'),
+        changelog: core_1.getInput('changelog'),
+        changelogPath: core_1.getInput('changelog-path'),
+        metadata: core_1.getInput('metadata'),
+        metadataPath: core_1.getInput('metadata-path')
     };
 };
-exports.url = (config) => {
-    return `${config.host}/games/${config.game}/mods/${config.mod}/files`;
+exports.url = (cfg) => {
+    return `${cfg.host}/games/${cfg.game}/mods/${cfg.mod}/files`;
 };
-exports.file = (config) => {
-    const fd = fs_1.openSync(config.file, "r");
-    return fs_1.createReadStream(config.file, { fd: fd });
+exports.file = (cfg) => {
+    const fd = fs_1.openSync(cfg.file, 'r');
+    return fs_1.createReadStream(cfg.file, { fd });
 };
-exports.changelog = (config) => {
-    return (config.changelog ||
-        (config.changelog_path &&
-            fs_1.readFileSync(config.changelog_path).toString("utf8")));
+exports.changelog = (cfg) => {
+    return (cfg.changelog ||
+        (cfg.changelogPath && fs_1.readFileSync(cfg.changelogPath).toString('utf8')));
 };
-exports.metadata = (config) => {
-    return (config.metadata ||
-        (config.metadata_path &&
-            fs_1.readFileSync(config.metadata_path).toString("utf8")));
-};
-
-
-/***/ }),
-
-/***/ 334:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-module.exports =
-{
-  parallel      : __webpack_require__(424),
-  serial        : __webpack_require__(91),
-  serialOrdered : __webpack_require__(892)
+exports.metadata = (cfg) => {
+    return (cfg.metadata ||
+        (cfg.metadataPath && fs_1.readFileSync(cfg.metadataPath).toString('utf8')));
 };
 
 

@@ -2,13 +2,15 @@
     "name": "upload-to-modio",
     "version": "0.1.0",
     "description": "GitHub Action to upload mod files to mod.io",
-    "main": "dist/index.js",
+    "main": "lib/main.js",
     "scripts": {
-        "tsc": "tsc",
-        "build": "ncc build src/main.ts",
-        "precommit": "npm run build && git add -f dist",
+        "build": "tsc",
+        "format": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'",
+        "format:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts'",
+        "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts'",
+        "pack": "ncc build",
         "test": "jest",
-        "fmt": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'"
+        "all": "npm run build && npm run format && npm run lint && npm run pack && npm test"
     },
     "repository": {
         "type": "git",
@@ -35,11 +37,14 @@
         "@types/jest": "^24.0.23",
         "@types/node": "^12.12.14",
         "@zeit/ncc": "^0.20.5",
+        "eslint": "^5.16.0",
+        "eslint-plugin-github": "^2.0.0",
+        "eslint-plugin-jest": "^22.21.0",
         "jest": "^24.9.0",
         "jest-circus": "^24.9.0",
         "prettier": "1.18.2",
         "ts-jest": "^24.2.0",
-        "typescript": "^3.7.2",
+        "typescript": "^3.7.3",
         "typescript-formatter": "^7.2.2"
     }
 }

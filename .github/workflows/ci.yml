@@ -22,10 +22,12 @@ jobs:
         run: npm ci
 
       - name: Format
-        run: npm run fmt
+        run: npm run format
 
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          npm run pack
 
       - name: Test
         run: npm run test
@@ -33,6 +35,6 @@ jobs:
       - name: Check for changes
         run: |
           git diff --exit-code --stat -- . ':!node_modules' \
-          || (echo "##[error] found changed files after build. please 'npm run build && npm run format'" \
+          || (echo "##[error] found changed files after build. please 'npm run all'" \
                   "and check in all changes" \
               && exit 1)

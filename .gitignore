@@ -1,6 +1,5 @@
-__tests__/runner/*
+node_modules
 
-# comment out in distribution branches
-dist/
-node_modules/
-lib/
+# Ignore built ts files
+__tests__/runner/*
+lib/**/*
