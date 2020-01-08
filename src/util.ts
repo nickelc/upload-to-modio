@@ -6,7 +6,7 @@ const PROD_ENV = 'https://api.mod.io/v1'
 const TEST_ENV = 'https://api.test.mod.io/v1'
 
 export interface Config {
-  host: string
+  baseUrl: string
   token: string
   game: number
   mod: number
@@ -21,9 +21,15 @@ export interface Config {
   metadataPath?: string
 }
 
+export interface UrlConfig {
+  baseUrl: string
+  game: number
+  mod: number
+}
+
 export const config = (): Config => {
   const testEnv = getInput('test-env') === 'true'
-  const host = testEnv ? TEST_ENV : PROD_ENV
+  const baseUrl = testEnv ? TEST_ENV : PROD_ENV
 
   const game = getInput('game', {required: true})
   const mod = getInput('mod', {required: true})
@@ -37,7 +43,7 @@ export const config = (): Config => {
   }
 
   return {
-    host,
+    baseUrl,
     token: getInput('token', {required: true}),
     game: +game,
     mod: +mod,
@@ -52,8 +58,8 @@ export const config = (): Config => {
   }
 }
 
-export const url = (cfg: Config): string => {
-  return `${cfg.host}/games/${cfg.game}/mods/${cfg.mod}/files`
+export const url = ({baseUrl, game, mod}: UrlConfig): string => {
+  return `${baseUrl}/games/${game}/mods/${mod}/files`
 }
 
 export const file = (cfg: Config): ReadStream => {

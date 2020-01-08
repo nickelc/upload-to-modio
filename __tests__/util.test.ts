@@ -7,11 +7,9 @@ describe('util', () => {
       assert.equal(
         'host/games/123/mods/345/files',
         url({
-          host: 'host',
-          token: 't',
+          baseUrl: 'host',
           game: 123,
-          mod: 345,
-          file: 'file.txt'
+          mod: 345
         })
       )
     })
@@ -22,7 +20,7 @@ describe('util', () => {
       assert.equal(
         'no changes',
         changelog({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
@@ -36,7 +34,7 @@ describe('util', () => {
       assert.equal(
         'some bug fixes',
         changelog({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
@@ -50,7 +48,7 @@ describe('util', () => {
       assert.equal(
         'changelog first',
         changelog({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
@@ -67,7 +65,7 @@ describe('util', () => {
       assert.equal(
         'no meta',
         metadata({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
@@ -81,7 +79,7 @@ describe('util', () => {
       assert.equal(
         'mode=easy',
         metadata({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
@@ -95,7 +93,7 @@ describe('util', () => {
       assert.equal(
         'metadata first',
         metadata({
-          host: 'host',
+          baseUrl: 'host',
           token: 't',
           game: 123,
           mod: 345,
