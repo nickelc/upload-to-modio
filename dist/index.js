@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(198);
+/******/ 		return __webpack_require__(51);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -417,6 +417,82 @@ module.exports = {
   extend: extend,
   trim: trim
 };
+
+
+/***/ }),
+
+/***/ 51:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const util = __importStar(__webpack_require__(562));
+const core = __importStar(__webpack_require__(470));
+const form_data_1 = __importDefault(__webpack_require__(928));
+const axios_1 = __importDefault(__webpack_require__(53));
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const config = util.config();
+            const uri = util.url(config);
+            core.debug(`URL: ${uri}`);
+            const form = new form_data_1.default();
+            form.append('filedata', util.file(config));
+            if (config.filehash) {
+                form.append('filehash', config.filehash);
+            }
+            if (config.active) {
+                form.append('active', 'true');
+            }
+            if (config.version) {
+                form.append('version', config.version);
+            }
+            const changelog = util.changelog(config);
+            if (changelog) {
+                form.append('changelog', changelog);
+            }
+            const md = util.metadata(config);
+            if (md) {
+                form.append('metadata_blob', md);
+            }
+            const response = yield axios_1.default.post(uri, form, {
+                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
+            });
+            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
+            core.setOutput('id', response.data.id);
+            core.setOutput('url', response.data.download.binary_url);
+            core.debug(`Response: ${JSON.stringify(response.data)}`);
+        }
+        catch (error) {
+            core.setFailed(error.message);
+            if (error.response) {
+                core.setFailed(error.response.data.message);
+                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
+            }
+        }
+    });
+}
+run();
 
 
 /***/ }),
@@ -1105,82 +1181,6 @@ function runJob(iterator, key, item, callback)
 
   return aborter;
 }
-
-
-/***/ }),
-
-/***/ 198:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const util = __importStar(__webpack_require__(345));
-const core = __importStar(__webpack_require__(470));
-const form_data_1 = __importDefault(__webpack_require__(928));
-const axios_1 = __importDefault(__webpack_require__(53));
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const config = util.config();
-            const uri = util.url(config);
-            core.debug(`URL: ${uri}`);
-            const form = new form_data_1.default();
-            form.append('filedata', util.file(config));
-            if (config.filehash) {
-                form.append('filehash', config.filehash);
-            }
-            if (config.active) {
-                form.append('active', 'true');
-            }
-            if (config.version) {
-                form.append('version', config.version);
-            }
-            const changelog = util.changelog(config);
-            if (changelog) {
-                form.append('changelog', changelog);
-            }
-            const md = util.metadata(config);
-            if (md) {
-                form.append('metadata_blob', md);
-            }
-            const response = yield axios_1.default.post(uri, form, {
-                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
-            });
-            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
-            core.setOutput('id', response.data.id);
-            core.setOutput('url', response.data.download.binary_url);
-            core.debug(`Response: ${JSON.stringify(response.data)}`);
-        }
-        catch (error) {
-            core.setFailed(error.message);
-            if (error.response) {
-                core.setFailed(error.response.data.message);
-                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
-            }
-        }
-    });
-}
-run();
 
 
 /***/ }),
@@ -1995,65 +1995,6 @@ module.exports =
 
 /***/ }),
 
-/***/ 345:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __webpack_require__(747);
-const path_1 = __importDefault(__webpack_require__(622));
-const core_1 = __webpack_require__(470);
-const PROD_ENV = 'https://api.mod.io/v1';
-const TEST_ENV = 'https://api.test.mod.io/v1';
-exports.config = () => {
-    const testEnv = core_1.getInput('test-env') === 'true';
-    const baseUrl = testEnv ? TEST_ENV : PROD_ENV;
-    const game = core_1.getInput('game', { required: true });
-    const mod = core_1.getInput('mod', { required: true });
-    if (isNaN(+game)) {
-        throw new Error(`Invalid input value for 'game': ${game}`);
-    }
-    if (isNaN(+mod)) {
-        throw new Error(`Invalid input value for 'mod': ${mod}`);
-    }
-    return {
-        baseUrl,
-        token: core_1.getInput('token', { required: true }),
-        game: +game,
-        mod: +mod,
-        file: path_1.default.resolve(core_1.getInput('path', { required: true })),
-        filehash: core_1.getInput('filehash'),
-        active: core_1.getInput('active') === 'true',
-        version: core_1.getInput('version'),
-        changelog: core_1.getInput('changelog'),
-        changelogPath: core_1.getInput('changelog-path'),
-        metadata: core_1.getInput('metadata'),
-        metadataPath: core_1.getInput('metadata-path')
-    };
-};
-exports.url = ({ baseUrl, game, mod }) => {
-    return `${baseUrl}/games/${game}/mods/${mod}/files`;
-};
-exports.file = (cfg) => {
-    const fd = fs_1.openSync(cfg.file, 'r');
-    return fs_1.createReadStream(cfg.file, { fd });
-};
-exports.changelog = (cfg) => {
-    return (cfg.changelog ||
-        (cfg.changelogPath && fs_1.readFileSync(cfg.changelogPath).toString('utf8')));
-};
-exports.metadata = (cfg) => {
-    return (cfg.metadata ||
-        (cfg.metadataPath && fs_1.readFileSync(cfg.metadataPath).toString('utf8')));
-};
-
-
-/***/ }),
-
 /***/ 352:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -2125,7 +2066,7 @@ module.exports = require("assert");
 /***/ 361:
 /***/ (function(module) {
 
-module.exports = {"_from":"axios@0.19.2","_id":"axios@0.19.2","_inBundle":false,"_integrity":"sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.19.2","name":"axios","escapedName":"axios","rawSpec":"0.19.2","saveSpec":null,"fetchSpec":"0.19.2"},"_requiredBy":["#USER","/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.19.2.tgz","_shasum":"3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27","_spec":"axios@0.19.2","_where":"/home/constantin/projects/modio/upload-to-modio","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"1.5.10"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.17.0","coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.0.2","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^20.1.0","grunt-karma":"^2.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.2.0","karma-coverage":"^1.1.1","karma-firefox-launcher":"^1.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.2.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^5.2.0","sinon":"^4.5.0","typescript":"^2.8.1","url-search-params":"^0.10.0","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/axios/axios","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.19.2"};
+module.exports = {"name":"axios","version":"0.19.2","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test && bundlesize","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://github.com/axios/axios","devDependencies":{"bundlesize":"^0.17.0","coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.0.2","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^20.1.0","grunt-karma":"^2.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.2.0","karma-coverage":"^1.1.1","karma-firefox-launcher":"^1.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.2.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^5.2.0","sinon":"^4.5.0","typescript":"^2.8.1","url-search-params":"^0.10.0","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"typings":"./index.d.ts","dependencies":{"follow-redirects":"1.5.10"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.19.2.tgz","_integrity":"sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==","_from":"axios@0.19.2"};
 
 /***/ }),
 
@@ -3251,6 +3192,65 @@ function wrap(protocols) {
 // Exports
 module.exports = wrap({ http: http, https: https });
 module.exports.wrap = wrap;
+
+
+/***/ }),
+
+/***/ 562:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __webpack_require__(747);
+const path_1 = __importDefault(__webpack_require__(622));
+const core_1 = __webpack_require__(470);
+const PROD_ENV = 'https://api.mod.io/v1';
+const TEST_ENV = 'https://api.test.mod.io/v1';
+exports.config = () => {
+    const testEnv = core_1.getInput('test-env') === 'true';
+    const baseUrl = testEnv ? TEST_ENV : PROD_ENV;
+    const game = core_1.getInput('game', { required: true });
+    const mod = core_1.getInput('mod', { required: true });
+    if (isNaN(+game)) {
+        throw new Error(`Invalid input value for 'game': ${game}`);
+    }
+    if (isNaN(+mod)) {
+        throw new Error(`Invalid input value for 'mod': ${mod}`);
+    }
+    return {
+        baseUrl,
+        token: core_1.getInput('token', { required: true }),
+        game: +game,
+        mod: +mod,
+        file: path_1.default.resolve(core_1.getInput('path', { required: true })),
+        filehash: core_1.getInput('filehash'),
+        active: core_1.getInput('active') === 'true',
+        version: core_1.getInput('version'),
+        changelog: core_1.getInput('changelog'),
+        changelogPath: core_1.getInput('changelog-path'),
+        metadata: core_1.getInput('metadata'),
+        metadataPath: core_1.getInput('metadata-path')
+    };
+};
+exports.url = ({ baseUrl, game, mod }) => {
+    return `${baseUrl}/games/${game}/mods/${mod}/files`;
+};
+exports.file = (cfg) => {
+    const fd = fs_1.openSync(cfg.file, 'r');
+    return fs_1.createReadStream(cfg.file, { fd });
+};
+exports.changelog = (cfg) => {
+    return (cfg.changelog ||
+        (cfg.changelogPath && fs_1.readFileSync(cfg.changelogPath).toString('utf8')));
+};
+exports.metadata = (cfg) => {
+    return (cfg.metadata ||
+        (cfg.metadataPath && fs_1.readFileSync(cfg.metadataPath).toString('utf8')));
+};
 
 
 /***/ }),
