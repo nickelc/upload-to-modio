@@ -34,17 +34,17 @@
         "form-data": "^3.0.0"
     },
     "devDependencies": {
-        "@types/jest": "^24.0.23",
-        "@types/node": "^12.12.14",
-        "@zeit/ncc": "^0.20.5",
-        "eslint": "^5.16.0",
-        "eslint-plugin-github": "^2.0.0",
-        "eslint-plugin-jest": "^22.21.0",
-        "jest": "^24.9.0",
-        "jest-circus": "^24.9.0",
-        "prettier": "1.18.2",
-        "ts-jest": "^24.2.0",
-        "typescript": "^3.7.3",
+        "@types/jest": "^25.1.3",
+        "@types/node": "^13.7.4",
+        "@zeit/ncc": "^0.21.1",
+        "eslint": "^6.8.0",
+        "eslint-plugin-github": "^3.4.1",
+        "eslint-plugin-jest": "^23.8.0",
+        "jest": "^25.1.0",
+        "jest-circus": "^25.1.0",
+        "prettier": "1.19.1",
+        "ts-jest": "^25.2.1",
+        "typescript": "^3.8.2",
         "typescript-formatter": "^7.2.2"
     }
 }
