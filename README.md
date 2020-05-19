@@ -1,4 +1,4 @@
-<a href="https://mod.io"><img src="https://static.mod.io/v1/images/branding/modio-color-dark.svg" alt="mod.io" width="400"/></a>
+<a href="https://mod.io"><img src="https://github.com/nickelc/upload-to-modio/raw/master/header.png" alt="mod.io" width="320"/></a>
 
 # 📦🕹️ GitHub Action for uploading mods to [mod.io](https://mod.io)
 
