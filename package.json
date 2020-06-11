@@ -2,12 +2,12 @@
     "name": "upload-to-modio",
     "version": "0.1.0",
     "description": "GitHub Action to upload mod files to mod.io",
-    "main": "lib/src/main.js",
+    "main": "lib/main.js",
     "scripts": {
         "build": "tsc",
-        "format": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'",
-        "format:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts'",
-        "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts'",
+        "format": "prettier --write '**/*.ts'",
+        "format:check": "prettier --check '**/*.ts'",
+        "lint": "eslint 'src/**/*.ts'",
         "pack": "ncc build",
         "test": "jest",
         "all": "npm run build && npm run format && npm run lint && npm run pack && npm test"
@@ -29,22 +29,23 @@
     },
     "homepage": "https://github.com/nickelc/upload-to-modio#readme",
     "dependencies": {
-        "@actions/core": "^1.2.3",
+        "@actions/core": "^1.2.4",
         "axios": "^0.19.0",
         "form-data": "^3.0.0"
     },
     "devDependencies": {
-        "@types/jest": "^25.2.1",
-        "@types/node": "^13.11.1",
-        "@zeit/ncc": "^0.22.1",
-        "eslint": "^6.8.0",
-        "eslint-plugin-github": "^3.4.1",
-        "eslint-plugin-jest": "^23.8.2",
-        "jest": "^25.3.0",
-        "jest-circus": "^25.3.0",
-        "prettier": "^2.0.4",
-        "ts-jest": "^25.3.1",
-        "typescript": "^3.8.3",
+        "@types/jest": "^26.0.0",
+        "@types/node": "^14.0.13",
+        "@typescript-eslint/parser": "^3.1.0",
+        "@zeit/ncc": "^0.22.3",
+        "eslint": "^7.2.0",
+        "eslint-plugin-github": "^4.0.1",
+        "eslint-plugin-jest": "^23.13.2",
+        "jest": "^26.0.1",
+        "jest-circus": "^26.0.1",
+        "prettier": "^2.0.5",
+        "ts-jest": "^26.1.0",
+        "typescript": "^3.9.5",
         "typescript-formatter": "^7.2.2"
     }
 }

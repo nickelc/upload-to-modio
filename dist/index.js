@@ -19,7 +19,13 @@ module.exports =
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -34,7 +40,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(51);
+/******/ 		return __webpack_require__(198);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -417,82 +423,6 @@ module.exports = {
   extend: extend,
   trim: trim
 };
-
-
-/***/ }),
-
-/***/ 51:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const util = __importStar(__webpack_require__(562));
-const core = __importStar(__webpack_require__(470));
-const form_data_1 = __importDefault(__webpack_require__(928));
-const axios_1 = __importDefault(__webpack_require__(53));
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const config = util.config();
-            const uri = util.url(config);
-            core.debug(`URL: ${uri}`);
-            const form = new form_data_1.default();
-            form.append('filedata', util.file(config));
-            if (config.filehash) {
-                form.append('filehash', config.filehash);
-            }
-            if (config.active) {
-                form.append('active', 'true');
-            }
-            if (config.version) {
-                form.append('version', config.version);
-            }
-            const changelog = util.changelog(config);
-            if (changelog) {
-                form.append('changelog', changelog);
-            }
-            const md = util.metadata(config);
-            if (md) {
-                form.append('metadata_blob', md);
-            }
-            const response = yield axios_1.default.post(uri, form, {
-                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
-            });
-            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
-            core.setOutput('id', response.data.id);
-            core.setOutput('url', response.data.download.binary_url);
-            core.debug(`Response: ${JSON.stringify(response.data)}`);
-        }
-        catch (error) {
-            core.setFailed(error.message);
-            if (error.response) {
-                core.setFailed(error.response.data.message);
-                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
-            }
-        }
-    });
-}
-run();
 
 
 /***/ }),
@@ -1181,6 +1111,94 @@ function runJob(iterator, key, item, callback)
 
   return aborter;
 }
+
+
+/***/ }),
+
+/***/ 198:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const util = __importStar(__webpack_require__(345));
+const core = __importStar(__webpack_require__(470));
+const form_data_1 = __importDefault(__webpack_require__(928));
+const axios_1 = __importDefault(__webpack_require__(53));
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const config = util.config();
+            const uri = util.url(config);
+            core.debug(`URL: ${uri}`);
+            const form = new form_data_1.default();
+            form.append('filedata', util.file(config));
+            if (config.filehash) {
+                form.append('filehash', config.filehash);
+            }
+            if (config.active) {
+                form.append('active', 'true');
+            }
+            if (config.version) {
+                form.append('version', config.version);
+            }
+            const changelog = util.changelog(config);
+            if (changelog) {
+                form.append('changelog', changelog);
+            }
+            const md = util.metadata(config);
+            if (md) {
+                form.append('metadata_blob', md);
+            }
+            const response = yield axios_1.default.post(uri, form, {
+                headers: Object.assign(Object.assign({}, form.getHeaders()), { Authorization: `Bearer ${config.token}` })
+            });
+            console.log(`🎉 File ready at ${response.data.download.binary_url}`);
+            core.setOutput('id', response.data.id);
+            core.setOutput('url', response.data.download.binary_url);
+            core.debug(`Response: ${JSON.stringify(response.data)}`);
+        }
+        catch (error) {
+            core.setFailed(error.message);
+            if (error.response) {
+                core.setFailed(error.response.data.message);
+                core.debug(`Error response: ${JSON.stringify(error.response.data)}`);
+            }
+        }
+    });
+}
+run();
 
 
 /***/ }),
@@ -1995,6 +2013,66 @@ module.exports =
 
 /***/ }),
 
+/***/ 345:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.metadata = exports.changelog = exports.file = exports.url = exports.config = void 0;
+const fs_1 = __webpack_require__(747);
+const path_1 = __importDefault(__webpack_require__(622));
+const core_1 = __webpack_require__(470);
+const PROD_ENV = 'https://api.mod.io/v1';
+const TEST_ENV = 'https://api.test.mod.io/v1';
+exports.config = () => {
+    const testEnv = core_1.getInput('test-env') === 'true';
+    const baseUrl = testEnv ? TEST_ENV : PROD_ENV;
+    const game = core_1.getInput('game', { required: true });
+    const mod = core_1.getInput('mod', { required: true });
+    if (isNaN(+game)) {
+        throw new Error(`Invalid input value for 'game': ${game}`);
+    }
+    if (isNaN(+mod)) {
+        throw new Error(`Invalid input value for 'mod': ${mod}`);
+    }
+    return {
+        baseUrl,
+        token: core_1.getInput('token', { required: true }),
+        game: +game,
+        mod: +mod,
+        file: path_1.default.resolve(core_1.getInput('path', { required: true })),
+        filehash: core_1.getInput('filehash'),
+        active: core_1.getInput('active') === 'true',
+        version: core_1.getInput('version'),
+        changelog: core_1.getInput('changelog'),
+        changelogPath: core_1.getInput('changelog-path'),
+        metadata: core_1.getInput('metadata'),
+        metadataPath: core_1.getInput('metadata-path')
+    };
+};
+exports.url = ({ baseUrl, game, mod }) => {
+    return `${baseUrl}/games/${game}/mods/${mod}/files`;
+};
+exports.file = (cfg) => {
+    const fd = fs_1.openSync(cfg.file, 'r');
+    return fs_1.createReadStream(cfg.file, { fd });
+};
+exports.changelog = (cfg) => {
+    return (cfg.changelog ||
+        (cfg.changelogPath && fs_1.readFileSync(cfg.changelogPath).toString('utf8')));
+};
+exports.metadata = (cfg) => {
+    return (cfg.metadata ||
+        (cfg.metadataPath && fs_1.readFileSync(cfg.metadataPath).toString('utf8')));
+};
+
+
+/***/ }),
+
 /***/ 352:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -2280,14 +2358,28 @@ class Command {
         return cmdStr;
     }
 }
+/**
+ * Sanitizes an input into a string so it can be passed into issueCommand safely
+ * @param input input to sanitize into a string
+ */
+function toCommandValue(input) {
+    if (input === null || input === undefined) {
+        return '';
+    }
+    else if (typeof input === 'string' || input instanceof String) {
+        return input;
+    }
+    return JSON.stringify(input);
+}
+exports.toCommandValue = toCommandValue;
 function escapeData(s) {
-    return (s || '')
+    return toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A');
 }
 function escapeProperty(s) {
-    return (s || '')
+    return toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A')
@@ -2343,11 +2435,13 @@ var ExitCode;
 /**
  * Sets env variable for this action and future actions in the job
  * @param name the name of the variable to set
- * @param val the value of the variable
+ * @param val the value of the variable. Non-string values will be converted to a string via JSON.stringify
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function exportVariable(name, val) {
-    process.env[name] = val;
-    command_1.issueCommand('set-env', { name }, val);
+    const convertedVal = command_1.toCommandValue(val);
+    process.env[name] = convertedVal;
+    command_1.issueCommand('set-env', { name }, convertedVal);
 }
 exports.exportVariable = exportVariable;
 /**
@@ -2386,12 +2480,22 @@ exports.getInput = getInput;
  * Sets the value of an output.
  *
  * @param     name     name of the output to set
- * @param     value    value to store
+ * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setOutput(name, value) {
     command_1.issueCommand('set-output', { name }, value);
 }
 exports.setOutput = setOutput;
+/**
+ * Enables or disables the echoing of commands into stdout for the rest of the step.
+ * Echoing is disabled by default if ACTIONS_STEP_DEBUG is not set.
+ *
+ */
+function setCommandEcho(enabled) {
+    command_1.issue('echo', enabled ? 'on' : 'off');
+}
+exports.setCommandEcho = setCommandEcho;
 //-----------------------------------------------------------------------
 // Results
 //-----------------------------------------------------------------------
@@ -2425,18 +2529,18 @@ function debug(message) {
 exports.debug = debug;
 /**
  * Adds an error issue
- * @param message error issue message
+ * @param message error issue message. Errors will be converted to string via toString()
  */
 function error(message) {
-    command_1.issue('error', message);
+    command_1.issue('error', message instanceof Error ? message.toString() : message);
 }
 exports.error = error;
 /**
  * Adds an warning issue
- * @param message warning issue message
+ * @param message warning issue message. Errors will be converted to string via toString()
  */
 function warning(message) {
-    command_1.issue('warning', message);
+    command_1.issue('warning', message instanceof Error ? message.toString() : message);
 }
 exports.warning = warning;
 /**
@@ -2494,8 +2598,9 @@ exports.group = group;
  * Saves state for current action, the state can only be retrieved by this action's post job execution.
  *
  * @param     name     name of the state to store
- * @param     value    value to store
+ * @param     value    value to store. Non-string values will be converted to a string via JSON.stringify
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function saveState(name, value) {
     command_1.issueCommand('save-state', { name }, value);
 }
@@ -3199,65 +3304,6 @@ function wrap(protocols) {
 // Exports
 module.exports = wrap({ http: http, https: https });
 module.exports.wrap = wrap;
-
-
-/***/ }),
-
-/***/ 562:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __webpack_require__(747);
-const path_1 = __importDefault(__webpack_require__(622));
-const core_1 = __webpack_require__(470);
-const PROD_ENV = 'https://api.mod.io/v1';
-const TEST_ENV = 'https://api.test.mod.io/v1';
-exports.config = () => {
-    const testEnv = core_1.getInput('test-env') === 'true';
-    const baseUrl = testEnv ? TEST_ENV : PROD_ENV;
-    const game = core_1.getInput('game', { required: true });
-    const mod = core_1.getInput('mod', { required: true });
-    if (isNaN(+game)) {
-        throw new Error(`Invalid input value for 'game': ${game}`);
-    }
-    if (isNaN(+mod)) {
-        throw new Error(`Invalid input value for 'mod': ${mod}`);
-    }
-    return {
-        baseUrl,
-        token: core_1.getInput('token', { required: true }),
-        game: +game,
-        mod: +mod,
-        file: path_1.default.resolve(core_1.getInput('path', { required: true })),
-        filehash: core_1.getInput('filehash'),
-        active: core_1.getInput('active') === 'true',
-        version: core_1.getInput('version'),
-        changelog: core_1.getInput('changelog'),
-        changelogPath: core_1.getInput('changelog-path'),
-        metadata: core_1.getInput('metadata'),
-        metadataPath: core_1.getInput('metadata-path')
-    };
-};
-exports.url = ({ baseUrl, game, mod }) => {
-    return `${baseUrl}/games/${game}/mods/${mod}/files`;
-};
-exports.file = (cfg) => {
-    const fd = fs_1.openSync(cfg.file, 'r');
-    return fs_1.createReadStream(cfg.file, { fd });
-};
-exports.changelog = (cfg) => {
-    return (cfg.changelog ||
-        (cfg.changelogPath && fs_1.readFileSync(cfg.changelogPath).toString('utf8')));
-};
-exports.metadata = (cfg) => {
-    return (cfg.metadata ||
-        (cfg.metadataPath && fs_1.readFileSync(cfg.metadataPath).toString('utf8')));
-};
 
 
 /***/ }),
