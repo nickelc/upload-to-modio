@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
+      - name: Build mod file
+        run: |
           echo "Hello Mod" > mod.txt
           zip modfile.zip mod.txt
 
@@ -23,6 +24,45 @@ jobs:
           token: ${{ secrets.MODIO_TOKEN }}
           game: 206
           mod: 1041
+          path: modfile.zip
+```
+
+### Extract metadata for the upload
+
+Using the [`jq`] command to extract `game id`, `mod id` and `version` from a json file.
+
+[`jq`]: https://stedolan.github.io/jq/
+
+```yaml
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build mod file
+        run: |
+          echo "Hello Mod" > mod.txt
+          zip modfile.zip mod.txt
+
+      - name: Extract metadata
+        id: metadata
+        run: |
+          GAME_ID=$(jq '.game' metadata.json)
+          MOD_ID=$(jq '.mod' metadata.json)
+          VERSION=$(jq '.version' metadata.json)
+
+          echo "::set-output name=GAME::$GAME_ID"
+          echo "::set-output name=MOD::$MOD_ID"
+          echo "::set-output name=VERSION::$VERSION_ID"
+
+      - uses: nickelc/upload-to-modio@v1
+        with:
+          token: ${{ secrets.MODIO_TOKEN }}
+          game: ${{ steps.metadata.outputs.GAME }}
+          mod: ${{ steps.metadata.outputs.MOD }}
+          version: ${{ steps.metadata.outputs.VERSION }}
           path: modfile.zip
 ```
 
