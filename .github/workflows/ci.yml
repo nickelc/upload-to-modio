@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: |
           npm run build
-          npm run pack
+          npm run package
 
       - name: Test
         run: npm run test
