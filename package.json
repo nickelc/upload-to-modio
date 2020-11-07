@@ -2,15 +2,9 @@
     "name": "upload-to-modio",
     "version": "0.1.0",
     "description": "GitHub Action to upload mod files to mod.io",
-    "main": "lib/main.js",
+    "main": "dist/index.js",
     "scripts": {
-        "build": "tsc",
-        "format": "prettier --write **/*.ts",
-        "format-check": "prettier --check **/*.ts",
-        "lint": "eslint src/**/*.ts",
-        "package": "ncc build",
-        "test": "jest",
-        "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+        "build": "ncc build src/main.ts --minify"
     },
     "repository": {
         "type": "git",
@@ -30,21 +24,12 @@
     "homepage": "https://github.com/nickelc/upload-to-modio#readme",
     "dependencies": {
         "@actions/core": "^1.2.6",
-        "axios": "^0.20.0",
+        "axios": "^0.21.0",
         "form-data": "^3.0.0"
     },
     "devDependencies": {
-        "@types/jest": "^26.0.10",
         "@types/node": "^14.10.0",
-        "@typescript-eslint/parser": "^4.4.0",
-        "@vercel/ncc": "^0.24.1",
-        "eslint": "^7.10.0",
-        "eslint-plugin-github": "^4.1.1",
-        "eslint-plugin-jest": "^24.1.0",
-        "jest": "^24.9.0",
-        "jest-circus": "^26.4.2",
-        "prettier": "^2.1.1",
-        "ts-jest": "^24.3.0",
+        "@vercel/ncc": "^0.25.1",
         "typescript": "^4.0.3"
     }
 }
