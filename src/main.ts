@@ -1,7 +1,7 @@
 import * as util from './util'
 import * as core from '@actions/core'
 import FormData from 'form-data'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 async function run(): Promise<void> {
   try {
@@ -47,7 +47,8 @@ async function run(): Promise<void> {
     core.setOutput('url', response.data.download.binary_url)
 
     core.debug(`Response: ${JSON.stringify(response.data)}`)
-  } catch (error) {
+  } catch (err) {
+    const error = err as AxiosError;
     core.setFailed(error.message)
     if (error.response) {
       core.setFailed(error.response.data.message)
