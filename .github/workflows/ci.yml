@@ -3,30 +3,27 @@ name: ci
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Cache
-        uses: actions/cache@v3
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: upload
+        env:
+          MODIO_DEBUG_OVERRIDE_URL: https://httpbin.org/post
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          token: foobar
+          game: 123
+          mod: 456
+          path: action.yml
 
-      - name: Install
-        run: yarn install --frozen-lockfile
+          version: "1.0"
+          changelog-path: README.md
+          metadata: '{"foo":"bar"}'
 
-      - name: Build
-        run: npm run build
-
-      - name: Check for changes
-        run: |
-          git diff --exit-code --stat -- . ':!node_modules' \
-          || (echo "##[error] found changed files after build. please 'npm run build'" \
-                  "and check in all changes" \
-              && exit 1)
+      - run: |
+          : echo output
+          echo "${{ steps.upload.outputs.output }}"
+          cat "${{ steps.upload.outputs.output }}"
+        shell: bash

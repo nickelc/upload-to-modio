@@ -4,6 +4,8 @@
 
 **Name:** `nickelc/upload-to-modio`
 
+**Requires:** `curl` v7.76+
+
 ## Usage
 
 ```yaml
@@ -11,7 +13,7 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Build mod file
@@ -38,7 +40,7 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Build mod file
@@ -70,29 +72,31 @@ jobs:
 
 #### Required parameters
 
-| Name             | Type     | Description                                                     |
-|------------------|----------|-----------------------------------------------------------------|
-| `token`          | String   | The user's access token                                         |
-| `game`           | Number   | Unique id of the game                                           |
-| `mod`            | Number   | Unique id of the mod                                            |
-| `path`           | String   | Path to the file to upload                                      |
+| Name             | Type     | Description                              |
+|------------------|----------|------------------------------------------|
+| `token`          | String   | The user's access token                  |
+| `game`           | Number   | Unique id of the game                    |
+| `mod`            | Number   | Unique id of the mod                     |
+| `path`           | String   | Path to the file to upload               |
 
 #### Optional parameters
 
-| Name             | Type     | Description                                                     |
-|------------------|----------|-----------------------------------------------------------------|
-| `test-env`       | Boolean  | Use the test environment (Default: `false`)                     |
-| `version`        | String   | Version for the file                                            |
-| `changelog`      | String   | Changelog for the file                                          |
-| `changelog-path` | String   | Path to the changelog of the file                               |
-| `active`         | Boolean  | Label this upload as the current release (Default: `true`)      |
-| `filehash`       | String   | MD5 hash of the file                                            |
-| `metadata`       | String   | Metadata blob of the file                                       |
-| `metadata-path`  | String   | Path to the metadata blob of the file                           |
+| Name             | Type     | Description                              |
+|------------------|----------|------------------------------------------|
+| `test-env`       | Boolean  | Use the test environment                 |
+| `version`        | String   | Version for the file                     |
+| `changelog`      | String   | Changelog for the file                   |
+| `changelog-path` | String   | Path to the changelog of the file        |
+| `active`         | Boolean  | Label this upload as the current release |
+| `filehash`       | String   | MD5 hash of the file                     |
+| `metadata`       | String   | Metadata blob of the file                |
+| `metadata-path`  | String   | Path to the metadata blob of the file    |
 
 ### Outputs
 
-| Name             | Type     | Description                                                     |
-|------------------|----------|-----------------------------------------------------------------|
-| `id`             | Number   | Unique id of the uploaded file                                  |
-| `url`            | String   | Download URL for the file                                       |
+| Name             | Type     | Description                              |
+|------------------|----------|------------------------------------------|
+| `id`             | Number   | Unique id of the uploaded file           |
+| `url`            | String   | Download URL for the file                |
+| `filehash`       | String   | MD5 hash for the uploaded file           |
+| `output`         | String   | File to output of the request            |

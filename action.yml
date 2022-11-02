@@ -1,15 +1,17 @@
 name: 'Upload to Modio'
 description: 'GitHub Action for uploading mods to mod.io'
 author: 'nickelc'
+branding:
+  color: 'yellow'
+  icon: 'package'
 
 inputs:
   token:
     description: "The user's access token"
     required: true
   test-env:
-    description: 'Use test environment (Default: false)'
+    description: 'Use test environment'
     required: false
-    default: false
 
   game:
     description: 'Unique id of the game'
@@ -31,9 +33,8 @@ inputs:
     description: 'Path to changelog of the mod file'
     required: false
   active:
-    description: 'Label this upload as the current release (Default: true)'
+    description: 'Label this upload as the current release'
     required: false
-    default: true
   filehash:
     description: 'Filehash of the mod file'
     required: false
@@ -44,10 +45,130 @@ inputs:
     description: 'Path to the metadata blob of the mod file'
     required: false
 
-runs:
-  using: 'node16'
-  main: 'dist/index.js'
+outputs:
+  id:
+    description: 'Unique id of the uploaded file'
+    value: ${{ steps.upload.outputs.id }}
+  url:
+    description: 'Download URL for the file'
+    value: ${{ steps.upload.outputs.url }}
+  fileshash:
+    description: 'MD5 of the uploaded file'
+    value: ${{ steps.upload.outputs.filehash }}
+  output:
+    description: 'File to output of the request'
+    value: ${{ steps.upload.outputs.output }}
 
-branding:
-  color: 'yellow'
-  icon: 'package'
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        : validate inputs
+
+        bail() {
+          echo "::error::$*"
+          exit 1
+        }
+
+        token="${{ inputs.token }}"
+        [[ -n "$token" ]] || bail "input \"token\" is not set or empty"
+
+        game="${{ inputs.game }}"
+        [[ -n "$game" ]] || bail "input \"game\" is not set or empty"
+        [[ $game =~ ^[0-9]+$ ]] || bail "input \"game\" is not an integer"
+
+        mod="${{ inputs.mod }}"
+        [[ -n "$mod" ]] || bail "input \"mod\" is not set or empty"
+        [[ $mod =~ ^[0-9]+$ ]] || bail "input \"mod\" is not an integer"
+
+        path="${{ inputs.path }}"
+        [[ -n "$path" ]] || bail "input \"path\" is not set or empty"
+        [[ -f "$path" ]] || bail "input \"path\" is not a file"
+
+    - id: form
+      shell: bash
+      env:
+        filedata: ${{ inputs.path }}
+        version: ${{ inputs.version }}
+        changelog: ${{ inputs.changelog-path || inputs.changelog }}
+        active: ${{ inputs.active }}
+        filehash: ${{ inputs.filehash }}
+        metadata: ${{ inputs.metadata-path || inputs.metadata }}
+
+      run: |
+        : construct form fields
+        fields=()
+
+        fields+=("filedata=@$filedata")
+
+        if [ -n "$version" ]; then
+          file=$(mktemp -p $RUNNER_TEMP version.XXXX)
+          echo -n $version > $file
+          fields+=("'version=<$file'")
+        fi
+
+        if [ -f "$changelog" ]; then
+            fields+=("'changelog=<$changelog'")
+        elif [ -n "$changelog" ]; then
+            file=$(mktemp -p $RUNNER_TEMP changelog.XXXX)
+            echo -n $changelog > $file
+            fields+=("'changelog=<$file'")
+        fi
+
+        if [ "$active" = "true" ]; then
+            fields+=("'active=true'")
+        elif [ "$active" = "false" ]; then
+            fields+=("'active=false'")
+        fi
+
+        if [ -n "$filehash" ]; then
+            file=$(mktemp -p $RUNNER_TEMP filehash.XXXX)
+            echo -n $filehash > $file
+            fields+=("'filehash=<$file'")
+        fi
+
+        if [ -f "$metadata" ]; then
+            fields+=("'metadata_blob=<$metadata'")
+        elif [ -n "$metadata" ]; then
+            file=$(mktemp -p $RUNNER_TEMP metadata.XXXX)
+            echo -n $metadata > $file
+            fields+=("'metadata_blob=<$file'")
+        fi
+
+        echo "fields=$(for i in ${!fields[@]}; do echo -n ' -F' ${fields[$i]}; done)" >> $GITHUB_OUTPUT
+
+    - id: url
+      shell: bash
+      env:
+        game_id: ${{ inputs.game }}
+        mod_id: ${{ inputs.mod }}
+        test_env: ${{ inputs.test-env }}
+      run: |
+        : construct modio endpoint url
+        if [ "$test_env" = "true" ]; then
+          base_url="https://api.test.mod.io/v1"
+        else
+          base_url="https://api.mod.io/v1"
+        fi
+        echo "value=${base_url}/games/${game_id}/mods/${mod_id}/files" >> $GITHUB_OUTPUT
+
+    - id: upload
+      shell: bash
+      env:
+        modio_endpoint: ${{ steps.url.outputs.value }}
+        modio_token: ${{ inputs.token }}
+      run: |
+        : upload to mod.io
+        output=$(mktemp -p $RUNNER_TEMP outputXXXX.json)
+
+        url=${MODIO_DEBUG_OVERRIDE_URL:-$modio_endpoint}
+
+        curl --fail-with-body $url \
+              -H "Authorization: Bearer ${modio_token}" \
+              ${{ steps.form.outputs.fields }} > $output
+
+        echo "id=$(jq < $output -r '.id // empty')" >> $GITHUB_OUTPUT
+        echo "url=$(jq < $output -r '.download.binary_url // empty')" >> $GITHUB_OUTPUT
+        echo "filehash=$(jq < $output -r '.filehash.md5 // empty')" >> $GITHUB_OUTPUT
+        echo "output=$output" >> $GITHUB_OUTPUT
