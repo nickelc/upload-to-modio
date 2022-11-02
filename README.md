@@ -53,9 +53,9 @@ jobs:
           MOD_ID=$(jq '.mod' metadata.json)
           VERSION=$(jq '.version' metadata.json)
 
-          echo "::set-output name=GAME::$GAME_ID"
-          echo "::set-output name=MOD::$MOD_ID"
-          echo "::set-output name=VERSION::$VERSION_ID"
+          echo "GAME=$GAME_ID" >> $GITHUB_OUTPUT
+          echo "MOD=$MOD_ID" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION_ID" >> $GITHUB_OUTPUT
 
       - uses: nickelc/upload-to-modio@v1
         with:
