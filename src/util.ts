@@ -1,4 +1,4 @@
-import {openSync, createReadStream, readFileSync, ReadStream} from 'fs'
+import {createReadStream, readFileSync, ReadStream} from 'fs'
 import path from 'path'
 import {getInput} from '@actions/core'
 
@@ -63,8 +63,7 @@ export const url = ({baseUrl, game, mod}: UrlConfig): string => {
 }
 
 export const file = (cfg: Config): ReadStream => {
-  const fd = openSync(cfg.file, 'r')
-  return createReadStream(cfg.file, {fd})
+  return createReadStream(cfg.file, {flags: 'r'})
 }
 
 export const changelog = (cfg: Config): string | ReadStream | undefined => {
