@@ -48,13 +48,18 @@ async function run(): Promise<void> {
 
     core.debug(`Response: ${JSON.stringify(response.data)}`)
   } catch (err) {
-    const error = err as AxiosError;
-    core.setFailed(error.message)
-    if (error.response) {
-      core.setFailed(error.response.data.message)
-      core.debug(`Error response: ${JSON.stringify(error.response.data)}`)
+    if (axios.isAxiosError<ModioError>(err)) {
+      core.setFailed(err.message)
+      if (err.response) {
+        core.setFailed(err.response.data.message)
+        core.debug(`Error response: ${JSON.stringify(err.response.data)}`)
+      }
     }
   }
+}
+
+interface ModioError {
+  message: string,
 }
 
 run()

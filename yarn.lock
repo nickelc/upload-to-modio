@@ -32,12 +32,14 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-axios@^0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
-  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
+axios@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
+  integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
   dependencies:
-    follow-redirects "^1.14.7"
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -51,7 +53,7 @@ delayed-stream@~1.0.0:
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
 
-follow-redirects@^1.14.7:
+follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -76,6 +78,11 @@ mime-types@^2.1.12:
   integrity sha512-0TO2yJ5YHYr7M2zzT7gDU1tbwHxEUWBCLt0lscSNpcdAfFyJOVEpRYNS7EXVcTLNj/25QO8gulHC5JtTzSE2UQ==
   dependencies:
     mime-db "1.45.0"
+
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 tunnel@^0.0.6:
   version "0.0.6"
