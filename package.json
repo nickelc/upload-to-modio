@@ -1,6 +1,6 @@
 {
     "name": "upload-to-modio",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "GitHub Action to upload mod files to mod.io",
     "main": "dist/index.js",
     "scripts": {
