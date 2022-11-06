@@ -4,7 +4,7 @@
 
 **Name:** `nickelc/upload-to-modio`
 
-**Requires:** `curl` v7.76+
+**Requires:** `curl` v7.76+ (It will be installed from Ubuntu Snap Store for Ubuntu 20.04)
 
 ## Usage
 

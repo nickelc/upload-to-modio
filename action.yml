@@ -86,6 +86,19 @@ runs:
         [[ -n "$path" ]] || bail "input \"path\" is not set or empty"
         [[ -f "$path" ]] || bail "input \"path\" is not a file"
 
+    - id: curl
+      shell: bash
+      if: runner.os == 'Linux'
+      run: |
+        : check curl version
+        curl_version=$(curl -V | head -1 | cut -d ' ' -f2)
+
+        if dpkg --compare-versions "$curl_version" lt "7.76.0"; then
+          echo '::notice ::curl 7.76+ is required. Installing curl from snap.'
+          sudo snap install curl
+          echo '/snap/bin' >> $GITHUB_PATH
+        fi
+
     - id: form
       shell: bash
       env:
