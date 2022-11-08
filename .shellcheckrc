@@ -1,0 +1,7 @@
+# https://www.shellcheck.net/wiki/SC2292
+# https://google.github.io/styleguide/shellguide.html#s6.3-tests
+enable=require-double-brackets
+
+# https://www.shellcheck.net/wiki/SC2250
+# https://google.github.io/styleguide/shellguide.html#s5.6-variable-expansion
+enable=require-variable-braces

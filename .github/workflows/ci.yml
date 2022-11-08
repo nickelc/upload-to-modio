@@ -4,7 +4,12 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04, windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +23,7 @@ jobs:
           mod: 456
           path: action.yml
 
-          version: "1.0"
+          version: '1.0'
           changelog-path: README.md
           metadata: '{"foo":"bar"}'
 
@@ -27,3 +32,17 @@ jobs:
           echo "${{ steps.upload.outputs.response }}"
           cat "${{ steps.upload.outputs.response }}"
         shell: bash
+
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: taiki-e/install-action@shellcheck
+      - uses: taiki-e/install-action@shfmt
+      - run: yarn add prettier
+      - run: shfmt -d $(git ls-files '*.sh')
+        if: always()
+      - run: yarn run prettier -c $(git ls-files '*.yml')
+        if: always()
+      - run: shellcheck $(git ls-files '*.sh')
+        if: always()
