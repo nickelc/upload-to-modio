@@ -99,4 +99,4 @@ jobs:
 | `id`             | Number   | Unique id of the uploaded file           |
 | `url`            | String   | Download URL for the file                |
 | `filehash`       | String   | MD5 hash for the uploaded file           |
-| `output`         | String   | File to output of the request            |
+| `response`       | String   | File to response content of the request  |

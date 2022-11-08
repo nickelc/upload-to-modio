@@ -24,6 +24,6 @@ jobs:
 
       - run: |
           : echo output
-          echo "${{ steps.upload.outputs.output }}"
-          cat "${{ steps.upload.outputs.output }}"
+          echo "${{ steps.upload.outputs.response }}"
+          cat "${{ steps.upload.outputs.response }}"
         shell: bash
