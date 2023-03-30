@@ -91,6 +91,9 @@ jobs:
 | `filehash`       | String   | MD5 hash of the file                     |
 | `metadata`       | String   | Metadata blob of the file                |
 | `metadata-path`  | String   | Path to the metadata blob of the file    |
+| `platforms`      | String   | Comma-separated list of platforms: `Windows,Linux` |
+
+See <https://docs.mod.io/#targeting-a-platform> for supported platform values.
 
 ### Outputs
 

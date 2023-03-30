@@ -42,6 +42,7 @@ changelog="${INPUT_CHANGELOG:-}"
 active="${INPUT_ACTIVE:-}"
 filehash="${INPUT_FILEHASH:-}"
 metadata="${INPUT_METADATA:-}"
+platforms="${INPUT_PLATFORMS:-}"
 
 tempdir="${RUNNER_TEMP:-/tmp}"
 
@@ -81,6 +82,14 @@ elif [[ -n "${metadata}" ]]; then
     file=$(mktemp "${tempdir}/metadata.XXXX.in")
     echo -n "${metadata}" >"${file}"
     fields+=("metadata_blob=<${file}")
+fi
+
+if [[ -n "${platforms}" ]]; then
+    for platform in ${platforms//,/ }; do
+        file=$(mktemp "${tempdir}/platform.XXXX.in")
+        echo -n "${platform}" >"${file}"
+        fields+=("platforms[]=<${file}")
+    done
 fi
 
 # check curl version for `Linux` runners
