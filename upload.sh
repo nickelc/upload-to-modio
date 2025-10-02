@@ -111,9 +111,9 @@ for f in "${fields[@]}"; do
 done
 
 # construct modio endpoint url
-base_url="https://api.mod.io/v1"
+base_url="https://g-${game_id}.modapi.io/v1"
 if [[ "${INPUT_TEST_URL}" == "true" ]]; then
-    base_url="https://api.test.mod.io/v1"
+    base_url="https://g-${game_id}.test.mod.io/v1"
 fi
 url="${base_url}/games/${game_id}/mods/${mod_id}/files"
 url="${MODIO_DEBUG_OVERRIDE_URL:-${url}}"
