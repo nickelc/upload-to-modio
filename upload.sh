@@ -94,15 +94,6 @@ fi
 
 # check curl version for `Linux` runners
 cmd="curl"
-if [[ "${RUNNER_OS}" == "Linux" ]]; then
-    # Ubuntu 20.04's curl is too old.
-    curl_version=$(curl -V | head -1 | cut -d' ' -f2)
-    if dpkg --compare-versions "${curl_version}" lt "7.76.0"; then
-        notice "curl 7.76+ is required. Installing curl from snap."
-        sudo snap install curl
-        cmd="/snap/bin/curl"
-    fi
-fi
 
 # construct curl arguments
 args=(-H "Authorization: Bearer ${token}")
