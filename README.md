@@ -21,7 +21,7 @@ jobs:
           echo "Hello Mod" > mod.txt
           zip modfile.zip mod.txt
 
-      - uses: nickelc/upload-to-modio@v2.1.0
+      - uses: nickelc/upload-to-modio@v3.0.0
         with:
           token: ${{ secrets.MODIO_TOKEN }}
           game: 206
@@ -59,7 +59,7 @@ jobs:
           echo "MOD=$MOD_ID" >> $GITHUB_OUTPUT
           echo "VERSION=$VERSION_ID" >> $GITHUB_OUTPUT
 
-      - uses: nickelc/upload-to-modio@v2.1.0
+      - uses: nickelc/upload-to-modio@v3.0.0
         with:
           token: ${{ secrets.MODIO_TOKEN }}
           game: ${{ steps.metadata.outputs.GAME }}
